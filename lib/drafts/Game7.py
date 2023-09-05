@@ -1,24 +1,21 @@
 import pygame
 import math
-# build everything in one file and then import the classes in
 
-# Initialize screen
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 720
-
+# Set up the Pygame window
 pygame.init()
-# screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-# background_image = pygame.image.load("../assets/images/westworld__the_maze_logo_by_mattwilliamsart_daqww0w-pre.jpeg")
-background_image = pygame.image.load('./assets/images/valley.jpeg')  # 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen_width = 1280
+screen_height = 720
+screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 running = True
 dt = 0
-pygame.display.set_caption('Westworld')
+
+# Load your background image
+background_image = pygame.image.load('../images/backgrounds/valley.jpeg')  # Replace 'your_image_path.jpg' with your image file path
 
 # Define the boundary of the maze as a circle
-circle_radius = min(SCREEN_WIDTH, SCREEN_HEIGHT) // 2 - 20  # Adjust the radius as needed
-circle_center = pygame.Vector2(circle_radius + 20, SCREEN_HEIGHT / 2)  # Shifted to the left
+circle_radius = min(screen_width, screen_height) // 2 - 20  # Adjust the radius as needed
+circle_center = pygame.Vector2(circle_radius + 20, screen_height / 2)  # Shifted to the left
 
 # Define the maze structure (1 represents walls, 0 represents open paths)
 maze_radius = circle_radius  # Make the inner radius smaller to fit the page vertically
