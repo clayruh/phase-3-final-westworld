@@ -1,8 +1,11 @@
 import pygame
 import math
-# build everything in one file and then import the classes in
 
+<<<<<<< Updated upstream
 # Initialize screen
+=======
+# ----------Initialize screen---------#
+>>>>>>> Stashed changes
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 720
 
@@ -16,6 +19,7 @@ running = True
 # dt = 0
 pygame.display.set_caption('Westworld')
 
+# ----------Maze attributes----------#
 # Define the boundary of the maze as a circle
 circle_radius = min(SCREEN_WIDTH, SCREEN_HEIGHT) // 2 - 20  # Adjust the radius as needed
 circle_center = pygame.Vector2(circle_radius + 20, SCREEN_HEIGHT / 2)  # Shifted to the left
@@ -24,6 +28,8 @@ circle_center = pygame.Vector2(circle_radius + 20, SCREEN_HEIGHT / 2)  # Shifted
 maze_radius = circle_radius  # Make the inner radius smaller to fit the page vertically
 num_walls = 7200  # Adjust the number of walls as needed
 angle_step = 2 * math.pi / num_walls
+wall_thickness = 5  # Adjust the thickness of the circular boundary
+wall_color = (0, 0, 0)  # Black
 
 maze = []
 for i in range(num_walls):
@@ -35,13 +41,28 @@ for i in range(num_walls):
     end_y = int(circle_center.y + maze_radius * math.sin(end_angle))
     maze.append((start_x, start_y, end_x, end_y))
 
-# pygame setup
-wall_thickness = 5  # Adjust the thickness of the circular boundary
-wall_color = (0, 0, 0)  # Black
-player_color = (255, 0, 0)  # Red
+# -----------Player class----------- #
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("../assets/images/cowboy-hat.svg")
+        self.rect = self.image.get_rect()
 
-player_radius = 10  # Adjust the player circle size (smaller)
-player_pos = pygame.Vector2((circle_center.x - circle_radius + 10), circle_center.y)
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
+    player_color = (255, 0, 0)  # Red
+
+    player_radius = 10  # Adjust the player circle size (smaller)
+    player_pos = pygame.Vector2((circle_center.x - circle_radius + 10), circle_center.y)
+
+player = Player()
+
+# checking for image
+player_icon = pygame.image.load('../assets/images/cowboy-hat.png')
+imagerect = player_icon.get_rect()
+# how to add this as a Player class directly?
+
 
 while running:
     for event in pygame.event.get():
@@ -56,7 +77,7 @@ while running:
         pygame.draw.line(screen, wall_color, wall[:2], wall[2:], wall_thickness)
 
     # Draw the smaller player circle
-    pygame.draw.circle(screen, player_color, (int(player_pos.x), int(player_pos.y)), player_radius)
+    player.draw(screen, player_color, (int(player_pos.x), int(player_pos.y)), player_radius)
 
     keys = pygame.key.get_pressed()
     speed = 150
