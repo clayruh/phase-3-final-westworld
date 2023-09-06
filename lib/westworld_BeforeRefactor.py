@@ -44,29 +44,6 @@ player_color = (255, 0, 0)  # Red
 player_radius = 10  # Adjust the player circle size (smaller)
 player_pos = pygame.Vector2((circle_center.x - circle_radius + 10), circle_center.y)
 
-# Define the interior walls of the maze
-interior_walls = [
-    (300, 200, 400, 200),
-    (400, 200, 400, 300),
-    (400, 300, 600, 300),
-    (600, 300, 600, 400),
-    (600, 400, 500, 400),
-    (500, 400, 500, 600),
-    (500, 600, 700, 600),
-    (700, 600, 700, 500),
-    (700, 500, 800, 500),
-    (800, 500, 800, 300),
-    (800, 300, 700, 300),
-    (700, 300, 700, 200),
-    (700, 200, 600, 200),
-    (600, 200, 600, 100),
-    (600, 100, 400, 100),
-    (400, 100, 400, 200)
-]
-
-# Extend the maze list with interior walls
-maze.extend(interior_walls)
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

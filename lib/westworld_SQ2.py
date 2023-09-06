@@ -1,5 +1,4 @@
 import pygame
-import random
 
 # Initialize screen
 SCREEN_WIDTH = 1200
@@ -26,19 +25,6 @@ maze = [
     pygame.Rect(square_left, square_top, square_size, 20),
     pygame.Rect(square_left, square_top + square_size - 20, square_size, 20)
 ]
-
-# Generate inner walls to create paths
-inner_wall_thickness = 10
-inner_wall_color = (0, 0, 0)
-
-# Randomly generate inner walls
-num_inner_walls = 500  # Adjust the number of inner walls as needed
-for _ in range(num_inner_walls):
-    x = random.randint(square_left + 30, square_left + square_size - 30)
-    y = random.randint(square_top + 30, square_top + square_size - 30)
-    width = random.randint(20, 100)
-    height = inner_wall_thickness
-    maze.append(pygame.Rect(x, y, width, height))
 
 # pygame setup
 wall_thickness = 5

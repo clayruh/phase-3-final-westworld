@@ -16,24 +16,24 @@ running = True
 dt = 0
 pygame.display.set_caption('Westworld')
 
-# Define the boundary of the maze as a circle
-circle_radius = min(SCREEN_WIDTH, SCREEN_HEIGHT) // 2 - 20  # Adjust the radius as needed
-circle_center = pygame.Vector2(circle_radius + 20, SCREEN_HEIGHT / 2)  # Shifted to the left
+# Define the boundary of the maze as a square
+square_radius = min(SCREEN_WIDTH, SCREEN_HEIGHT) // 2 - 20  # Adjust the radius as needed
+square_center = pygame.Vector2(square_radius + 20, SCREEN_HEIGHT / 2)  # Shifted to the left
 
 # Define the maze structure (1 represents walls, 0 represents open paths)
-maze_radius = circle_radius  # Make the inner radius smaller to fit the page vertically
-num_walls = 7200  # Adjust the number of walls as needed
-angle_step = 2 * math.pi / num_walls
+maze_radius = square_radius  # Make the inner radius smaller to fit the page vertically
+num_walls = 4  # Adjust the number of walls as needed
+angle_step = 90
 
 
 maze = []
 for i in range(num_walls):
     start_angle = i * angle_step
     end_angle = (i + 1) * angle_step  # Make walls one full angle step long
-    start_x = int(circle_center.x + maze_radius * math.cos(start_angle))
-    start_y = int(circle_center.y + maze_radius * math.sin(start_angle))
-    end_x = int(circle_center.x + maze_radius * math.cos(end_angle))
-    end_y = int(circle_center.y + maze_radius * math.sin(end_angle))
+    start_x = int(square_center.x + maze_radius)
+    start_y = int(square_center.y + maze_radius)
+    end_x = int(square_center.x + maze_radius )
+    end_y = int(square_center.y + maze_radius)
     maze.append((start_x, start_y, end_x, end_y))
 
 # pygame setup
@@ -42,30 +42,7 @@ wall_color = (0, 0, 0)  # Black
 player_color = (255, 0, 0)  # Red
 
 player_radius = 10  # Adjust the player circle size (smaller)
-player_pos = pygame.Vector2((circle_center.x - circle_radius + 10), circle_center.y)
-
-# Define the interior walls of the maze
-interior_walls = [
-    (300, 200, 400, 200),
-    (400, 200, 400, 300),
-    (400, 300, 600, 300),
-    (600, 300, 600, 400),
-    (600, 400, 500, 400),
-    (500, 400, 500, 600),
-    (500, 600, 700, 600),
-    (700, 600, 700, 500),
-    (700, 500, 800, 500),
-    (800, 500, 800, 300),
-    (800, 300, 700, 300),
-    (700, 300, 700, 200),
-    (700, 200, 600, 200),
-    (600, 200, 600, 100),
-    (600, 100, 400, 100),
-    (400, 100, 400, 200)
-]
-
-# Extend the maze list with interior walls
-maze.extend(interior_walls)
+player_pos = pygame.Vector2((square_center.x - square_radius + 10), square_center.y)
 
 while running:
     for event in pygame.event.get():
@@ -99,7 +76,7 @@ while running:
 
     # Check if the new position is within the circular boundary and not in the walls
     if (
-        (new_player_pos - circle_center).length() <= circle_radius - player_radius
+        (new_player_pos - square_center).length() <= square_radius - player_radius
     ):
         # Apply the new position if it's within the boundary
         player_pos = new_player_pos
