@@ -25,6 +25,7 @@ maze_radius = circle_radius  # Make the inner radius smaller to fit the page ver
 num_walls = 7200  # Adjust the number of walls as needed
 angle_step = 2 * math.pi / num_walls
 
+
 maze = []
 for i in range(num_walls):
     start_angle = i * angle_step
