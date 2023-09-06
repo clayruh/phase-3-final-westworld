@@ -9,11 +9,11 @@ SCREEN_HEIGHT = 720
 pygame.init()
 # screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # background_image = pygame.image.load("../assets/images/westworld__the_maze_logo_by_mattwilliamsart_daqww0w-pre.jpeg")
-background_image = pygame.image.load('./assets/images/valley.jpeg')  # 
+background_image = pygame.image.load('./assets/images/valley.jpeg')
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 running = True
-dt = 0
+# dt = 0
 pygame.display.set_caption('Westworld')
 
 # Define the boundary of the maze as a circle
