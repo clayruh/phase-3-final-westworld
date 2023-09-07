@@ -31,7 +31,7 @@ square_center_y = square_top + square_radius
 square_center = pygame.Vector2(square_center_x, square_center_y)
 
 # Generate inner walls to create paths
-inner_wall_thickness = 10
+wall_thickness = 10
 wall_color = (0, 0, 0)
 
 maze = [
@@ -41,14 +41,45 @@ maze = [
     pygame.Rect(square_left, square_top + square_size - 20, square_size, 20)
 ]
 
-# Randomly generate inner walls
-num_inner_walls = 50  # Adjust the number of inner walls as needed
-for _ in range(num_inner_walls):
-    x = random.randint(square_left + 30, square_left + square_size - 30)
-    y = random.randint(square_top + 30, square_top + square_size - 30)
-    width = random.randint(20, 100)
-    height = inner_wall_thickness
-    maze.append(pygame.Rect(x, y, width, height))
+# Create a grid for the maze generation
+cell_size = 80
+num_cells_x = (square_size - 2 * wall_thickness) // cell_size  # Adjust for the inner walls
+num_cells_y = (square_size - 2 * wall_thickness) // cell_size  # Adjust for the inner walls
+
+
+# # Create a grid for the maze generation
+# cell_size = 40
+# num_cells_x = (square_size - wall_thickness) // cell_size
+# num_cells_y = (square_size - wall_thickness) // cell_size
+
+grid = [['wall' for _ in range(num_cells_x)] for _ in range(num_cells_y)]
+
+# Define the directions for moving to neighboring cells
+directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+# Initialize starting cell
+start_x = random.randint(0, num_cells_x - 1)
+start_y = random.randint(0, num_cells_y - 1)
+grid[start_y][start_x] = 'empty'
+
+def carve(x, y):
+    grid[y][x] = 'empty'
+    random.shuffle(directions)
+    for dx, dy in directions:
+        nx, ny = x + 1 * dx, y + 1 * dy
+        if 0 <= nx < num_cells_x and 0 <= ny < num_cells_y and grid[ny][nx] == 'wall':
+            maze_x = wall_thickness + nx * cell_size
+            maze_y = wall_thickness + ny * cell_size
+            maze_width = wall_thickness if dx == 0 else cell_size
+            maze_height = wall_thickness if dy == 0 else cell_size
+            maze_rect = pygame.Rect(maze_x, maze_y, maze_width, maze_height)
+            maze.append(maze_rect)
+            carve(nx, ny)
+
+carve(start_x, start_y)
+
+
+
 
 # ------------------ Music ------------------- #
 pygame.mixer.init()
