@@ -58,8 +58,6 @@ start_y = num_cells_y // 2  # Set the starting Y-coordinate to be roughly midway
 
 grid[start_y][start_x] = 'empty'
 
-
-
 def carve(x, y):
     grid[y][x] = 'empty'
     random.shuffle(directions)
@@ -84,9 +82,35 @@ pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play(-1)
 
 # ---------------- Initialize game ----------------#
+ball_positions = []
+ball_radius = 10
+ball = Ball(SCREEN_WIDTH //2, SCREEN_HEIGHT //2)
+
+# Function to check if a position is valid for placing a ball
+def is_valid_ball_position(position, maze):
+    # Check if the position is within the maze and not colliding with walls
+    for wall in maze:
+        if wall.colliderect(position):
+            return False
+    return True
+
+# Generate balls in the maze ------------------------#
+while len(ball_positions) < 10:
+    x = random.randint(square_left + wall_thickness, square_left + square_size - wall_thickness)
+    y = random.randint(square_top + wall_thickness, square_top + square_size - wall_thickness)
+    position = pygame.Rect(x, y, ball_radius * 2, ball_radius * 2)
+    if is_valid_ball_position(position, maze):
+        ball_positions.append(position)
+
+# Create Ball objects at the valid positions
+balls = [Ball(position.centerx, position.centery) for position in ball_positions]
+
 player = Player(square_center, square_radius, square_rect, maze)
-ball = Ball(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 score = Score()
+
+all_sprites = pygame.sprite.Group()
+all_sprites.add(player)
+all_sprites.add(balls)
 
 while running:
     for event in pygame.event.get():
@@ -104,8 +128,9 @@ while running:
     if collisions:
         score.increment(10)
         ball.hide()
-
-    ball.update()
+    
+    for ball in balls:
+        ball.update()
 
     # Draw balls onto screen
     ball.draw(screen)
