@@ -1,6 +1,5 @@
 import pygame
 
-# -----------Player class----------- #
 class Player(pygame.sprite.Sprite):
     def __init__(self, square_center, square_radius, square_rect, maze):
         super().__init__()

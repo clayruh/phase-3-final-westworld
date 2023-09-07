@@ -1,7 +1,10 @@
 import pygame
 import random
 import math
-from classes.highscore import Highscore
+import sys
+sys.path.append('./phase-3-final-westworld')
+# from lib.classes.highscore import Highscore
+
 from classes.player import Player
 
 # ----------Initialize screen--------- # 
@@ -18,7 +21,7 @@ pygame.display.set_caption('Westworld')
 # ---------------- Maze ---------------- # 
 # Define the boundary of the maze as a square on the left side of the screen
 square_size = min(SCREEN_WIDTH, SCREEN_HEIGHT) - 40  # Adjust the size as needed
-square_left = 20  # Adjust the left position as needed
+square_left = 20
 square_top = (SCREEN_HEIGHT - square_size) // 2
 square_rect = pygame.Rect(square_left, square_top, square_size, square_size)
 square_radius = square_size/2
@@ -26,16 +29,16 @@ square_center_x = square_left + square_radius
 square_center_y = square_top + square_radius
 square_center = pygame.Vector2(square_center_x, square_center_y)
 
+# Generate inner walls to create paths
+inner_wall_thickness = 10
+wall_color = (0, 0, 0)
+
 maze = [
     pygame.Rect(square_left, square_top, 20, square_size),
     pygame.Rect(square_left + square_size - 20, square_top, 20, square_size),
     pygame.Rect(square_left, square_top, square_size, 20),
     pygame.Rect(square_left, square_top + square_size - 20, square_size, 20)
 ]
-
-# Generate inner walls to create paths
-inner_wall_thickness = 10
-wall_color = (0, 0, 0)
 
 # Randomly generate inner walls
 num_inner_walls = 50  # Adjust the number of inner walls as needed
@@ -47,8 +50,9 @@ for _ in range(num_inner_walls):
     maze.append(pygame.Rect(x, y, width, height))
 
 # ---------------- Initialize game ----------------#
+
+# Create instances
 player = Player(square_center, square_radius, square_rect, maze)
-dt = 0
 
 while running:
     for event in pygame.event.get():
@@ -62,8 +66,10 @@ while running:
     for wall in maze:
         pygame.draw.rect(screen, wall_color, wall)
 
+    # Draw player onto screen
     player.draw(screen)
 
+    # Handle player and movement
     keys = pygame.key.get_pressed()
     player.move(keys)
 
