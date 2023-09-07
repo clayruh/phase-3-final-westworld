@@ -18,38 +18,20 @@ clock = pygame.time.Clock()
 running = True
 pygame.display.set_caption('Westworld')
 
-# ---------------- Maze ---------------- # 
-# Define the boundary of the maze as a square on the left side of the screen
-square_size = min(SCREEN_WIDTH, SCREEN_HEIGHT) - 40  # Adjust the size as needed
-square_left = 20
-square_top = (SCREEN_HEIGHT - square_size) // 2
-square_rect = pygame.Rect(square_left, square_top, square_size, square_size)
-square_radius = square_size/2
-square_center_x = square_left + square_radius
-square_center_y = square_top + square_radius
-square_center = pygame.Vector2(square_center_x, square_center_y)
-
-# Generate inner walls to create paths
-wall_thickness = 10
+# Maze setup
+maze = []
 wall_color = (0, 0, 0)
+wall_thickness = 10
 
-maze = [
-    pygame.Rect(square_left, square_top, 20, square_size),
-    pygame.Rect(square_left + square_size - 20, square_top, 20, square_size),
-    pygame.Rect(square_left, square_top, square_size, 20),
-    pygame.Rect(square_left, square_top + square_size - 20, square_size, 20)
-]
+# Create the outer boundaries of the maze as a square
+square_size = min(SCREEN_WIDTH, SCREEN_HEIGHT) - 2 * wall_thickness
+square_rect = pygame.Rect(wall_thickness, wall_thickness, square_size, square_size)
+maze.append(square_rect)
 
 # Create a grid for the maze generation
-cell_size = 80
-num_cells_x = (square_size - 2 * wall_thickness) // cell_size  # Adjust for the inner walls
-num_cells_y = (square_size - 2 * wall_thickness) // cell_size  # Adjust for the inner walls
-
-
-# # Create a grid for the maze generation
-# cell_size = 40
-# num_cells_x = (square_size - wall_thickness) // cell_size
-# num_cells_y = (square_size - wall_thickness) // cell_size
+cell_size = 40
+num_cells_x = (square_size - wall_thickness) // cell_size
+num_cells_y = (square_size - wall_thickness) // cell_size
 
 grid = [['wall' for _ in range(num_cells_x)] for _ in range(num_cells_y)]
 
@@ -65,7 +47,7 @@ def carve(x, y):
     grid[y][x] = 'empty'
     random.shuffle(directions)
     for dx, dy in directions:
-        nx, ny = x + 1 * dx, y + 1 * dy
+        nx, ny = x + 2 * dx, y + 2 * dy
         if 0 <= nx < num_cells_x and 0 <= ny < num_cells_y and grid[ny][nx] == 'wall':
             maze_x = wall_thickness + nx * cell_size
             maze_y = wall_thickness + ny * cell_size
@@ -77,34 +59,20 @@ def carve(x, y):
 
 carve(start_x, start_y)
 
-
-
-
-# ---------------- Initialize game ----------------#
-
-# Create instances
-player = Player(square_center, square_radius, square_rect, maze)
-
+# Game loop
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    # Blit the background image onto the screen
-    screen.blit(background_image, (0, 0))
+    # Clear the screen
+    screen.fill((255, 255, 255))
 
     # Draw the maze walls
     for wall in maze:
         pygame.draw.rect(screen, wall_color, wall)
 
-    # Draw player onto screen
-    player.draw(screen)
-
-    # Handle player and movement
-    keys = pygame.key.get_pressed()
-    player.move(keys)
-
     pygame.display.flip()
-    dt = clock.tick(60) / 1000
+    clock.tick(60)
 
 pygame.quit()
