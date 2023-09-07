@@ -5,6 +5,7 @@ import sys
 sys.path.append('./phase-3-final-westworld/lib')
 
 from classes.player import Player
+from classes.ball import Ball
 from classes.score import Score
 from classes.highscore import Highscore
 
@@ -89,6 +90,7 @@ pygame.mixer.music.play(-1)
 
 # ---------------- Initialize game ----------------#
 player = Player(square_center, square_radius, square_rect, maze)
+ball = Ball(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 score = Score()
 
 while running:
@@ -103,10 +105,17 @@ while running:
     for wall in maze:
         pygame.draw.rect(screen, wall_color, wall)
 
+    # Draw balls onto screen
+    ball.draw(screen)
+    collisions = pygame.sprite.spritecollide(player, [ball], False)
+    if collisions:
+        score.increment(10)
+    ball.update()
+    # Display score
+    score.show_score(screen)
+
     # Draw player onto screen
     player.draw(screen)
-
-    # Handle player and movement
     keys = pygame.key.get_pressed()
     player.move(keys)
 
