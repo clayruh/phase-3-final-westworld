@@ -46,21 +46,18 @@ cell_size = 80
 num_cells_x = (square_size - 2 * wall_thickness) // cell_size  # Adjust for the inner walls
 num_cells_y = (square_size - 2 * wall_thickness) // cell_size  # Adjust for the inner walls
 
-
-# # Create a grid for the maze generation
-# cell_size = 40
-# num_cells_x = (square_size - wall_thickness) // cell_size
-# num_cells_y = (square_size - wall_thickness) // cell_size
-
 grid = [['wall' for _ in range(num_cells_x)] for _ in range(num_cells_y)]
 
 # Define the directions for moving to neighboring cells
 directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 
 # Initialize starting cell
-start_x = random.randint(0, num_cells_x - 1)
-start_y = random.randint(0, num_cells_y - 1)
+start_x = 0  # Set the starting X-coordinate to the leftmost cell
+start_y = num_cells_y // 2  # Set the starting Y-coordinate to be roughly midway vertically
+
 grid[start_y][start_x] = 'empty'
+
+
 
 def carve(x, y):
     grid[y][x] = 'empty'
@@ -68,8 +65,9 @@ def carve(x, y):
     for dx, dy in directions:
         nx, ny = x + 1 * dx, y + 1 * dy
         if 0 <= nx < num_cells_x and 0 <= ny < num_cells_y and grid[ny][nx] == 'wall':
-            maze_x = wall_thickness + nx * cell_size
-            maze_y = wall_thickness + ny * cell_size
+            # Calculate maze positions based on square_rect
+            maze_x = square_rect.left + wall_thickness + (nx * cell_size)
+            maze_y = square_rect.top + wall_thickness + (ny * cell_size)
             maze_width = wall_thickness if dx == 0 else cell_size
             maze_height = wall_thickness if dy == 0 else cell_size
             maze_rect = pygame.Rect(maze_x, maze_y, maze_width, maze_height)
