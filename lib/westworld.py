@@ -1,6 +1,6 @@
 import pygame
 import random
-import math
+from pygame import mixer
 import sys
 sys.path.append('./phase-3-final-westworld')
 # from lib.classes.highscore import Highscore
@@ -12,7 +12,7 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 720
 
 pygame.init()
-background_image = pygame.image.load('./assets/images/valley.jpeg')
+background_image = pygame.image.load('./assets/images/Westworld-background.png')
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 running = True
@@ -48,6 +48,12 @@ for _ in range(num_inner_walls):
     width = random.randint(20, 100)
     height = inner_wall_thickness
     maze.append(pygame.Rect(x, y, width, height))
+
+# ------------------ Music ------------------- #
+pygame.mixer.init()
+pygame.mixer.music.load("./assets/sounds/westworld-theme.ogg")
+pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.play(-1)
 
 # ---------------- Initialize game ----------------#
 

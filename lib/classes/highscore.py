@@ -1,4 +1,4 @@
-# from .. import CURSOR # can't find lib?
+from .. import CURSOR # can't find lib?
 
 class Highscore:
 
