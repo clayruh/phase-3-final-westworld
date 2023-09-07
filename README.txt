@@ -1,1 +1,0 @@
-A game inspired by Westworld the tv show.
