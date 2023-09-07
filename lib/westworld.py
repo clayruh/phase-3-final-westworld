@@ -79,9 +79,6 @@ def carve(x, y):
 
 carve(start_x, start_y)
 
-
-
-
 # ------------------ Music ------------------- #
 pygame.mixer.init()
 pygame.mixer.music.load("./assets/sounds/westworld-theme.ogg")
@@ -105,12 +102,16 @@ while running:
     for wall in maze:
         pygame.draw.rect(screen, wall_color, wall)
 
-    # Draw balls onto screen
-    ball.draw(screen)
     collisions = pygame.sprite.spritecollide(player, [ball], False)
     if collisions:
         score.increment(10)
+        ball.hide()
+
     ball.update()
+
+    # Draw balls onto screen
+    ball.draw(screen)
+
     # Display score
     score.show_score(screen)
 

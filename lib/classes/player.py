@@ -3,7 +3,7 @@ import pygame
 class Player(pygame.sprite.Sprite):
     def __init__(self, square_center, square_radius, square_rect, maze):
         super().__init__()
-        original_icon = pygame.image.load("./assets/images/black-hat.png")
+        original_icon = pygame.image.load("./assets/images/black-hat-1.png")
         scaled_width = original_icon.get_width() // 2
         scaled_height = original_icon.get_height() // 2
         self.image = pygame.transform.scale(original_icon, (scaled_width, scaled_height))
