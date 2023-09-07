@@ -1,4 +1,5 @@
-from . import CURSOR # can't find lib?
+from . import CURSOR 
+from . import CONN
 
 class Highscore:
 
@@ -26,4 +27,6 @@ class Highscore:
         sql="""INSERT INTO highscores (name, score)
         VALUES (?, ?)
         """
-        CURSOR.execute(sql)
+        CURSOR.execute(sql, [self.name, self.score])
+        CONN.commit()
+        self.id = CONN.commit().lastrowid()
