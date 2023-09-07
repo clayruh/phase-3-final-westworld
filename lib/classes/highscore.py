@@ -1,4 +1,4 @@
-from .. import CURSOR # can't find lib?
+from . import CURSOR # can't find lib?
 
 class Highscore:
 
@@ -17,6 +17,7 @@ class Highscore:
         self.name = name
         self.score = score
         self.id = id
+        Highscore.create_table()
 
     def __repr__(self):
         return f"Highscore(id={self.id} name={self.name}, score={self.score})"

@@ -2,10 +2,11 @@ import pygame
 import random
 from pygame import mixer
 import sys
-sys.path.append('./phase-3-final-westworld')
-# from lib.classes.highscore import Highscore
+sys.path.append('./phase-3-final-westworld/lib')
 
 from classes.player import Player
+from classes.score import Score
+from classes.highscore import Highscore
 
 # ----------Initialize screen--------- # 
 SCREEN_WIDTH = 1200
@@ -56,9 +57,8 @@ pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play(-1)
 
 # ---------------- Initialize game ----------------#
-
-# Create instances
 player = Player(square_center, square_radius, square_rect, maze)
+score = Score()
 
 while running:
     for event in pygame.event.get():
