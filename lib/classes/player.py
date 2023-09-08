@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         screen.blit(self.image, self.position - pygame.Vector2(self.radius, self.radius))
 
     def move(self, keys):
+        # print(self.rect)
         move_vector = pygame.Vector2(0, 0)
         if keys[pygame.K_UP]:
             move_vector.y = -self.speed
@@ -33,6 +34,9 @@ class Player(pygame.sprite.Sprite):
 
         # Check if the new position is within the square boundary and not in the walls
         new_rect = pygame.Rect(new_position.x - self.radius, new_position.y - self.radius, self.radius * 2, self.radius * 2)
+
         if self.square_rect.contains(new_rect) and not any(wall.colliderect(new_rect) for wall in self.maze):
             # Apply the new position if it's within the boundary
             self.position = new_position
+            # We had to update the rect in order to recognize it's moved position
+            self.rect.topleft = self.position[0], self.position[1]

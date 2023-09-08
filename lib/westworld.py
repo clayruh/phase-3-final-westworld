@@ -102,7 +102,6 @@ while len(ball_positions) < 10:
     if is_valid_ball_position(position, maze):
         ball_positions.append(position)
 
-# Create Ball objects at the valid positions
 balls = [Ball(position.centerx, position.centery) for position in ball_positions]
 
 player = Player(square_center, square_radius, square_rect, maze)
@@ -124,16 +123,16 @@ while running:
     for wall in maze:
         pygame.draw.rect(screen, wall_color, wall)
 
-    collisions = pygame.sprite.spritecollide(player, [ball], False)
-    if collisions:
-        score.increment(10)
-        ball.hide()
-    
-    for ball in balls:
-        ball.update()
+    collisions = pygame.sprite.spritecollide(player, balls, False)
+    print(collisions)
+    for ball in collisions: 
+        if ball.visible == True:
+            score.increment(10)
+            ball.hide()
 
     # Draw balls onto screen
-    ball.draw(screen)
+    for ball in balls:
+        ball.draw(screen)
 
     # Display score
     score.show_score(screen)

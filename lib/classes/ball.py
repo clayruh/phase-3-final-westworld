@@ -7,6 +7,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.visible = True
+        # print(self.rect)
 
     def draw(self, screen):
         if self.visible:
