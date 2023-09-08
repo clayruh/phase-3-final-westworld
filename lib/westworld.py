@@ -132,7 +132,7 @@ while running:
         pygame.draw.rect(screen, wall_color, wall)
 
     collisions = pygame.sprite.spritecollide(player, balls, False)
-    print(collisions)
+    # print(collisions)
     for ball in collisions: 
         if ball.visible == True:
             score.increment(10)

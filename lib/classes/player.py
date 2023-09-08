@@ -44,6 +44,8 @@ class Player(pygame.sprite.Sprite):
             # Apply the new position if it's within the boundary
             self.position = new_position
 
+            self.rect.topleft = self.position[0], self.position[1]
+
 
     def breakwall(self,keys):
         move_vector = pygame.Vector2(0, 0)
@@ -80,9 +82,14 @@ class Player(pygame.sprite.Sprite):
             # screen.blit(FREEDOM, (750, 300))
             self.position = new_position
 
+            self.rect.topleft = self.position[0], self.position[1]
+
         # If there is now wall, the player can move freely in the open world
         else:
             self.position = new_position
+
+        
+            self.rect.topleft = self.position[0], self.position[1]
 
 
 # Humans fancy that there's something special about the way we perceive the world, and yet we live in loops as tight and as closed as the hosts do, seldom questioning our choices, content, for the most part, to be told what to do next."
