@@ -38,5 +38,5 @@ class Player(pygame.sprite.Sprite):
         if self.square_rect.contains(new_rect) and not any(wall.colliderect(new_rect) for wall in self.maze):
             # Apply the new position if it's within the boundary
             self.position = new_position
-            # We had to update the rect in order to recognize it's moved position
+            # We had to update the rect in order to recognize it's moved position ANNOYINGG
             self.rect.topleft = self.position[0], self.position[1]
