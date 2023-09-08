@@ -58,8 +58,6 @@ start_y = num_cells_y // 2  # Set the starting Y-coordinate to be roughly midway
 
 grid[start_y][start_x] = 'empty'
 
-
-
 def carve(x, y):
     grid[y][x] = 'empty'
     random.shuffle(directions)
