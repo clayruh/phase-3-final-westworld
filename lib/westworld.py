@@ -111,6 +111,14 @@ all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 all_sprites.add(balls)
 
+ball_group = pygame.sprite.Group()
+ball_group.add(balls)
+
+player_group = pygame.sprite.Group()
+player_group.add()
+
+
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -141,6 +149,7 @@ while running:
     player.draw(screen)
     keys = pygame.key.get_pressed()
     player.move(keys)
+    player.breakwall(keys)
 
     pygame.display.flip()
     dt = clock.tick(60) / 1000
