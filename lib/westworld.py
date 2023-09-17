@@ -15,6 +15,7 @@ SCREEN_HEIGHT = 720
 
 pygame.init()
 background_image = pygame.image.load('./assets/images/Westworld-background.png')
+snake_wall_image = pygame.image.load('./assets/images/snake3.png')
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 running = True
@@ -32,8 +33,30 @@ square_center_y = square_top + square_radius
 square_center = pygame.Vector2(square_center_x, square_center_y)
 
 # Generate inner walls to create paths
-wall_thickness = 10
+wall_thickness = 20
 wall_color = (0, 0, 0)
+
+# generate snake walls 
+def scale_image(image, target_height):
+    width, height = image.get_size()
+    scale_factor = target_height / height
+    new_width = int(width * scale_factor)
+    new_height = int(height * scale_factor)
+    return pygame.transform.scale(image, (new_width, new_height))
+
+def draw_snake_walls(maze):
+    for wall in maze:
+        target_height = min(wall.height, wall.width)
+        scaled_snake_image = scale_image(snake_wall_image, target_height)
+        
+        if wall.height > wall.width:  # This wall is vertical
+            scaled_snake_image = pygame.transform.rotate(scaled_snake_image, 90)
+
+        for x in range(wall.x, wall.x + wall.width, scaled_snake_image.get_width()):
+            for y in range(wall.y, wall.y + wall.height, scaled_snake_image.get_height()):
+                screen.blit(scaled_snake_image, (x, y))
+
+
 
 maze = [
     pygame.Rect(square_left, square_top, 20, square_size),
@@ -41,6 +64,7 @@ maze = [
     pygame.Rect(square_left, square_top, square_size, 20),
     pygame.Rect(square_left, square_top + square_size - 20, square_size, 20)
 ]
+
 
 # Create a grid for the maze generation
 cell_size = 80
@@ -118,7 +142,6 @@ player_group = pygame.sprite.Group()
 player_group.add()
 
 
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -128,8 +151,13 @@ while running:
     screen.blit(background_image, (0, 0))
 
     # Draw the maze walls
+    transparent_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
     for wall in maze:
-        pygame.draw.rect(screen, wall_color, wall)
+        pygame.draw.rect(transparent_surface, wall_color + (0,), wall)  # (0,) is for alpha, making it transparent
+    screen.blit(transparent_surface, (0,0))
+
+ # Draw snake walls
+    draw_snake_walls(maze)    
 
     collisions = pygame.sprite.spritecollide(player, balls, False)
     # print(collisions)
@@ -138,12 +166,13 @@ while running:
             score.increment(10)
             ball.hide()
 
+  
     # Draw balls onto screen
     for ball in balls:
         ball.draw(screen)
 
-    # Display score
-    score.show_score(screen)
+    # Display score - updated to move to right
+    score.display(screen, SCREEN_WIDTH)
 
     # Draw player onto screen
     player.draw(screen)
